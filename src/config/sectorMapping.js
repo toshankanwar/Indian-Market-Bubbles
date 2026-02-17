@@ -1,0 +1,296 @@
+// Complete sector & industry mapping for all major NSE stocks
+// This is used for categories that NSE doesn't provide as separate indices
+
+const SECTOR_MAP = {
+    // ===== 🏥 HOSPITALS / HEALTHCARE =====
+    APOLLOHOSP: { sector: "Healthcare", industry: "Hospitals" },
+    FORTIS: { sector: "Healthcare", industry: "Hospitals" },
+    MAXHEALTH: { sector: "Healthcare", industry: "Hospitals" },
+    STARHEALTH: { sector: "Healthcare", industry: "Insurance" },
+    METROPOLIS: { sector: "Healthcare", industry: "Diagnostics" },
+    LALPATHLAB: { sector: "Healthcare", industry: "Diagnostics" },
+    THYROCARE: { sector: "Healthcare", industry: "Diagnostics" },
+    SUNPHARMA: { sector: "Pharma", industry: "Pharma" },
+    DRREDDY: { sector: "Pharma", industry: "Pharma" },
+    CIPLA: { sector: "Pharma", industry: "Pharma" },
+    DIVISLAB: { sector: "Pharma", industry: "Pharma" },
+    AUROPHARMA: { sector: "Pharma", industry: "Pharma" },
+    BIOCON: { sector: "Pharma", industry: "Biotech" },
+    GLENMARK: { sector: "Pharma", industry: "Pharma" },
+    LUPIN: { sector: "Pharma", industry: "Pharma" },
+    TORNTPHARM: { sector: "Pharma", industry: "Pharma" },
+    ALKEM: { sector: "Pharma", industry: "Pharma" },
+    IPCALAB: { sector: "Pharma", industry: "Pharma" },
+    NATCOPHARM: { sector: "Pharma", industry: "Pharma" },
+    ABBOTINDIA: { sector: "Pharma", industry: "Pharma MNC" },
+    SANOFI: { sector: "Pharma", industry: "Pharma MNC" },
+    PFIZER: { sector: "Pharma", industry: "Pharma MNC" },
+  
+    // ===== 🌾 AGRICULTURE =====
+    UPL: { sector: "Agriculture", industry: "Agrochemicals" },
+    PIIND: { sector: "Agriculture", industry: "Agrochemicals" },
+    RALLIS: { sector: "Agriculture", industry: "Agrochemicals" },
+    BAYER: { sector: "Agriculture", industry: "Agrochemicals" },
+    DHANUKA: { sector: "Agriculture", industry: "Agrochemicals" },
+    CHAMBAL: { sector: "Agriculture", industry: "Fertilizers" },
+    COROMANDEL: { sector: "Agriculture", industry: "Fertilizers" },
+    GNFC: { sector: "Agriculture", industry: "Fertilizers" },
+    RCF: { sector: "Agriculture", industry: "Fertilizers" },
+    FACT: { sector: "Agriculture", industry: "Fertilizers" },
+    GODREJAGRO: { sector: "Agriculture", industry: "Agri Products" },
+    KAVERI: { sector: "Agriculture", industry: "Seeds" },
+    BALRAMCHIN: { sector: "Agriculture", industry: "Sugar" },
+    RENUKA: { sector: "Agriculture", industry: "Sugar" },
+    AVANTIFEED: { sector: "Agriculture", industry: "Aquaculture" },
+    WATERBASE: { sector: "Agriculture", industry: "Aquaculture" },
+  
+    // ===== 🏨 HOTELS / TOURISM =====
+    INDHOTEL: { sector: "Hotels", industry: "Hotels" },
+    EIHOTEL: { sector: "Hotels", industry: "Hotels" },
+    LEMONTREE: { sector: "Hotels", industry: "Hotels" },
+    CHALET: { sector: "Hotels", industry: "Hotels" },
+    IRCTC: { sector: "Hotels", industry: "Travel & Tourism" },
+    EASEMYTRIP: { sector: "Hotels", industry: "Travel Tech" },
+    THOMASCOOK: { sector: "Hotels", industry: "Travel" },
+  
+    // ===== 🛡️ DEFENCE =====
+    HAL: { sector: "Defence", industry: "Aerospace" },
+    BEL: { sector: "Defence", industry: "Defence Electronics" },
+    BDL: { sector: "Defence", industry: "Defence Equipment" },
+    COCHINSHIP: { sector: "Defence", industry: "Shipbuilding" },
+    GRSE: { sector: "Defence", industry: "Shipbuilding" },
+    MAZAGON: { sector: "Defence", industry: "Shipbuilding" },
+    DATAPATTNS: { sector: "Defence", industry: "Defence Tech" },
+  
+    // ===== 🚂 RAILWAYS =====
+    IRFC: { sector: "Railways", industry: "Railway Finance" },
+    RVNL: { sector: "Railways", industry: "Railway Construction" },
+    IRCON: { sector: "Railways", industry: "Railway Construction" },
+    RAILTEL: { sector: "Railways", industry: "Railway Tech" },
+    RITES: { sector: "Railways", industry: "Railway Consulting" },
+    TITAGARH: { sector: "Railways", industry: "Wagons" },
+  
+    // ===== ✈️ AVIATION =====
+    INTERGLOBE: { sector: "Aviation", industry: "Airlines" },
+    SPICEJET: { sector: "Aviation", industry: "Airlines" },
+  
+    // ===== 🧪 CHEMICALS =====
+    PIDILITIND: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    SRF: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    AARTI: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    DEEPAKNTR: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    NAVINFLUOR: { sector: "Chemicals", industry: "Fluorochemicals" },
+    CLEAN: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    ATUL: { sector: "Chemicals", industry: "Specialty Chemicals" },
+    FLUOROCHEM: { sector: "Chemicals", industry: "Fluorochemicals" },
+    TATACHEM: { sector: "Chemicals", industry: "Basic Chemicals" },
+    ALKYLAMINE: { sector: "Chemicals", industry: "Specialty Chemicals" },
+  
+    // ===== 🏗️ CEMENT =====
+    ULTRACEMCO: { sector: "Cement", industry: "Cement" },
+    AMBUJACEM: { sector: "Cement", industry: "Cement" },
+    SHREECEM: { sector: "Cement", industry: "Cement" },
+    ACC: { sector: "Cement", industry: "Cement" },
+    RAMCOCEM: { sector: "Cement", industry: "Cement" },
+    JKCEMENT: { sector: "Cement", industry: "Cement" },
+    DALMIACBHARAT: { sector: "Cement", industry: "Cement" },
+    JKLAKSHMI: { sector: "Cement", industry: "Cement" },
+  
+    // ===== ☀️ GREEN ENERGY =====
+    ADANIGREEN: { sector: "Green Energy", industry: "Solar" },
+    TATAPOWER: { sector: "Green Energy", industry: "Renewable Energy" },
+    SUZLON: { sector: "Green Energy", industry: "Wind Energy" },
+    INOXWIND: { sector: "Green Energy", industry: "Wind Energy" },
+    NHPC: { sector: "Green Energy", industry: "Hydro Power" },
+    SJVN: { sector: "Green Energy", industry: "Hydro Power" },
+    WAAREE: { sector: "Green Energy", industry: "Solar Panels" },
+    BOROSIL: { sector: "Green Energy", industry: "Solar Glass" },
+  
+    // ===== 📦 LOGISTICS =====
+    DELHIVERY: { sector: "Logistics", industry: "E-commerce Logistics" },
+    BLUEDART: { sector: "Logistics", industry: "Express Delivery" },
+    CONCOR: { sector: "Logistics", industry: "Container Transport" },
+    SCI: { sector: "Logistics", industry: "Shipping" },
+    ALLCARGO: { sector: "Logistics", industry: "Logistics" },
+    TCI: { sector: "Logistics", industry: "Transport" },
+    VRL: { sector: "Logistics", industry: "Transport" },
+  
+    // ===== 🏫 EDUCATION =====
+    NIIT: { sector: "Education", industry: "IT Training" },
+    NAVNETEDUL: { sector: "Education", industry: "Education" },
+    CAREERP: { sector: "Education", industry: "Overseas Education" },
+  
+    // ===== 👗 TEXTILES =====
+    PAGEIND: { sector: "Textiles", industry: "Garments" },
+    TRENT: { sector: "Textiles", industry: "Fashion Retail" },
+    RAYMOND: { sector: "Textiles", industry: "Textiles" },
+    ARVIND: { sector: "Textiles", industry: "Textiles" },
+    GRASIM: { sector: "Textiles", industry: "Textiles" },
+    WELSPUNIND: { sector: "Textiles", industry: "Home Textiles" },
+    TRIDENT: { sector: "Textiles", industry: "Home Textiles" },
+    LUXIND: { sector: "Textiles", industry: "Innerwear" },
+    VMART: { sector: "Textiles", industry: "Value Retail" },
+    SHOPERSTOP: { sector: "Textiles", industry: "Retail" },
+  
+    // ===== 🏦 BANKING =====
+    HDFCBANK: { sector: "Banking", industry: "Private Bank" },
+    ICICIBANK: { sector: "Banking", industry: "Private Bank" },
+    KOTAKBANK: { sector: "Banking", industry: "Private Bank" },
+    AXISBANK: { sector: "Banking", industry: "Private Bank" },
+    INDUSINDBK: { sector: "Banking", industry: "Private Bank" },
+    SBIN: { sector: "Banking", industry: "PSU Bank" },
+    BANKBARODA: { sector: "Banking", industry: "PSU Bank" },
+    PNB: { sector: "Banking", industry: "PSU Bank" },
+    CANBK: { sector: "Banking", industry: "PSU Bank" },
+    UNIONBANK: { sector: "Banking", industry: "PSU Bank" },
+    IDFCFIRSTB: { sector: "Banking", industry: "Private Bank" },
+    FEDERALBNK: { sector: "Banking", industry: "Private Bank" },
+    BANDHANBNK: { sector: "Banking", industry: "Small Finance Bank" },
+    AUBANK: { sector: "Banking", industry: "Small Finance Bank" },
+  
+    // ===== 💻 IT =====
+    TCS: { sector: "IT", industry: "IT Services" },
+    INFY: { sector: "IT", industry: "IT Services" },
+    WIPRO: { sector: "IT", industry: "IT Services" },
+    HCLTECH: { sector: "IT", industry: "IT Services" },
+    TECHM: { sector: "IT", industry: "IT Services" },
+    LTIM: { sector: "IT", industry: "IT Services" },
+    MPHASIS: { sector: "IT", industry: "IT Services" },
+    COFORGE: { sector: "IT", industry: "IT Services" },
+    PERSISTENT: { sector: "IT", industry: "IT Services" },
+    ZOMATO: { sector: "IT", industry: "Internet" },
+    NYKAA: { sector: "IT", industry: "E-commerce" },
+    PAYTM: { sector: "IT", industry: "Fintech" },
+    POLICYBZR: { sector: "IT", industry: "Insurtech" },
+  
+    // ===== ⚡ ENERGY =====
+    RELIANCE: { sector: "Energy", industry: "Oil & Gas" },
+    ONGC: { sector: "Energy", industry: "Oil Exploration" },
+    IOC: { sector: "Energy", industry: "Oil Refining" },
+    BPCL: { sector: "Energy", industry: "Oil Refining" },
+    HINDPETRO: { sector: "Energy", industry: "Oil Refining" },
+    GAIL: { sector: "Energy", industry: "Natural Gas" },
+    NTPC: { sector: "Energy", industry: "Power Generation" },
+    POWERGRID: { sector: "Energy", industry: "Power Transmission" },
+    COALINDIA: { sector: "Energy", industry: "Coal Mining" },
+    ADANIPOWER: { sector: "Energy", industry: "Power Generation" },
+    TORNTPOWER: { sector: "Energy", industry: "Power Distribution" },
+  
+    // ===== 🚗 AUTO =====
+    MARUTI: { sector: "Auto", industry: "Cars" },
+    TATAMOTORS: { sector: "Auto", industry: "Cars & CV" },
+    "M&M": { sector: "Auto", industry: "SUVs & Tractors" },
+    "BAJAJ-AUTO": { sector: "Auto", industry: "Two Wheelers" },
+    HEROMOTOCO: { sector: "Auto", industry: "Two Wheelers" },
+    EICHERMOT: { sector: "Auto", industry: "Two Wheelers" },
+    TVSMOTOR: { sector: "Auto", industry: "Two Wheelers" },
+    ASHOKLEY: { sector: "Auto", industry: "Commercial Vehicles" },
+    MOTHERSON: { sector: "Auto", industry: "Auto Components" },
+    BOSCH: { sector: "Auto", industry: "Auto Components" },
+    MRF: { sector: "Auto", industry: "Tyres" },
+    APOLLOTYRE: { sector: "Auto", industry: "Tyres" },
+    BALKRISIND: { sector: "Auto", industry: "Tyres" },
+  
+    // ===== 💰 FINANCE / NBFC =====
+    BAJFINANCE: { sector: "Finance", industry: "NBFC" },
+    BAJAJFINSV: { sector: "Finance", industry: "Financial Services" },
+    HDFCAMC: { sector: "Finance", industry: "AMC" },
+    SBILIFE: { sector: "Finance", industry: "Insurance" },
+    HDFCLIFE: { sector: "Finance", industry: "Insurance" },
+    ICICIPRULI: { sector: "Finance", industry: "Insurance" },
+    ICICIGI: { sector: "Finance", industry: "Insurance" },
+    CHOLAFIN: { sector: "Finance", industry: "NBFC" },
+    MUTHOOTFIN: { sector: "Finance", industry: "Gold Finance" },
+    MANAPPURAM: { sector: "Finance", industry: "Gold Finance" },
+    PEL: { sector: "Finance", industry: "Housing Finance" },
+    CANFINHOME: { sector: "Finance", industry: "Housing Finance" },
+    LICHSGFIN: { sector: "Finance", industry: "Housing Finance" },
+    ANGELONE: { sector: "Finance", industry: "Stockbroker" },
+  
+    // ===== ⚙️ METAL =====
+    TATASTEEL: { sector: "Metal", industry: "Steel" },
+    JSWSTEEL: { sector: "Metal", industry: "Steel" },
+    SAIL: { sector: "Metal", industry: "Steel" },
+    HINDALCO: { sector: "Metal", industry: "Aluminium" },
+    VEDL: { sector: "Metal", industry: "Mining" },
+    NMDC: { sector: "Metal", industry: "Iron Ore Mining" },
+    NATIONALUM: { sector: "Metal", industry: "Aluminium" },
+    HINDCOPPER: { sector: "Metal", industry: "Copper" },
+    MOIL: { sector: "Metal", industry: "Manganese" },
+  
+    // ===== 🏠 REALTY =====
+    DLF: { sector: "Realty", industry: "Real Estate" },
+    GODREJPROP: { sector: "Realty", industry: "Real Estate" },
+    OBEROIRLTY: { sector: "Realty", industry: "Real Estate" },
+    PRESTIGE: { sector: "Realty", industry: "Real Estate" },
+    BRIGADE: { sector: "Realty", industry: "Real Estate" },
+    PHOENIXLTD: { sector: "Realty", industry: "Malls" },
+    SOBHA: { sector: "Realty", industry: "Real Estate" },
+    LODHA: { sector: "Realty", industry: "Real Estate" },
+  
+    // ===== 🛒 FMCG =====
+    HINDUNILVR: { sector: "FMCG", industry: "Personal Care" },
+    ITC: { sector: "FMCG", industry: "Tobacco & FMCG" },
+    NESTLEIND: { sector: "FMCG", industry: "Food Products" },
+    BRITANNIA: { sector: "FMCG", industry: "Food Products" },
+    DABUR: { sector: "FMCG", industry: "Personal Care" },
+    MARICO: { sector: "FMCG", industry: "Personal Care" },
+    GODREJCP: { sector: "FMCG", industry: "Personal Care" },
+    COLPAL: { sector: "FMCG", industry: "Oral Care" },
+    EMAMILTD: { sector: "FMCG", industry: "Personal Care" },
+    TATACONSUM: { sector: "FMCG", industry: "Food & Beverages" },
+    UNITDSPR: { sector: "FMCG", industry: "Alcoholic Beverages" },
+  
+    // ===== 📡 TELECOM =====
+    BHARTIARTL: { sector: "Telecom", industry: "Telecom" },
+    IDEA: { sector: "Telecom", industry: "Telecom" },
+    TATACOMM: { sector: "Telecom", industry: "Enterprise Telecom" },
+  
+    // ===== 🏗️ INFRA =====
+    LT: { sector: "Infrastructure", industry: "Construction" },
+    ADANIENT: { sector: "Infrastructure", industry: "Conglomerate" },
+    ADANIPORTS: { sector: "Infrastructure", industry: "Ports" },
+    SIEMENS: { sector: "Infrastructure", industry: "Engineering" },
+    ABB: { sector: "Infrastructure", industry: "Engineering" },
+    HAVELLS: { sector: "Infrastructure", industry: "Electricals" },
+    VOLTAS: { sector: "Infrastructure", industry: "AC & Cooling" },
+    BLUESTARLT: { sector: "Infrastructure", industry: "AC & Cooling" },
+    CUMMINSIND: { sector: "Infrastructure", industry: "Engineering" },
+    THERMAX: { sector: "Infrastructure", industry: "Engineering" },
+    KEC: { sector: "Infrastructure", industry: "Power Infra" },
+  };
+  
+  // All available categories for the filter bar
+  const ALL_CATEGORIES = [
+    { name: "All", filter: "all", emoji: "📊" },
+    { name: "Nifty 50", filter: "nifty50", emoji: "🏆" },
+  
+    // Sectors from NSE + Our Mapping
+    { name: "Banking", filter: "Banking", emoji: "🏦" },
+    { name: "IT", filter: "IT", emoji: "💻" },
+    { name: "Pharma", filter: "Pharma", emoji: "💊" },
+    { name: "Auto", filter: "Auto", emoji: "🚗" },
+    { name: "Energy", filter: "Energy", emoji: "⚡" },
+    { name: "Metal", filter: "Metal", emoji: "⚙️" },
+    { name: "FMCG", filter: "FMCG", emoji: "🛒" },
+    { name: "Realty", filter: "Realty", emoji: "🏠" },
+    { name: "Finance", filter: "Finance", emoji: "💰" },
+    { name: "Infrastructure", filter: "Infrastructure", emoji: "🏗️" },
+    { name: "Telecom", filter: "Telecom", emoji: "📡" },
+  
+    // Custom categories (from our mapping)
+    { name: "Healthcare", filter: "Healthcare", emoji: "🏥" },
+    { name: "Agriculture", filter: "Agriculture", emoji: "🌾" },
+    { name: "Hotels", filter: "Hotels", emoji: "🏨" },
+    { name: "Defence", filter: "Defence", emoji: "🛡️" },
+    { name: "Railways", filter: "Railways", emoji: "🚂" },
+    { name: "Aviation", filter: "Aviation", emoji: "✈️" },
+    { name: "Chemicals", filter: "Chemicals", emoji: "🧪" },
+    { name: "Cement", filter: "Cement", emoji: "🏗️" },
+    { name: "Green Energy", filter: "Green Energy", emoji: "☀️" },
+    { name: "Logistics", filter: "Logistics", emoji: "📦" },
+    { name: "Education", filter: "Education", emoji: "🏫" },
+    { name: "Textiles", filter: "Textiles", emoji: "👗" },
+  ];
+  
+  export { SECTOR_MAP, ALL_CATEGORIES };

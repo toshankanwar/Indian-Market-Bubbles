@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Generate Icons</title></head>
+<body style="background: #1a1a2e; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px;">
+<script>
+const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+sizes.forEach(size => {
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  
+  // Background
+  ctx.fillStyle = '#0a0a1a';
+  ctx.fillRect(0, 0, size, size);
+  
+  // Gradient circle
+  const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size*0.4);
+  gradient.addColorStop(0, '#00e676');
+  gradient.addColorStop(1, '#1b5e20');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.arc(size/2, size*0.4, size*0.25, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Small red bubble
+  const gradient2 = ctx.createRadialGradient(size*0.7, size*0.6, 0, size*0.7, size*0.6, size*0.15);
+  gradient2.addColorStop(0, '#ff1744');
+  gradient2.addColorStop(1, '#b71c1c');
+  ctx.fillStyle = gradient2;
+  ctx.beginPath();
+  ctx.arc(size*0.7, size*0.6, size*0.15, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Small blue bubble
+  const gradient3 = ctx.createRadialGradient(size*0.3, size*0.65, 0, size*0.3, size*0.65, size*0.12);
+  gradient3.addColorStop(0, '#2196F3');
+  gradient3.addColorStop(1, '#0D47A1');
+  ctx.fillStyle = gradient3;
+  ctx.beginPath();
+  ctx.arc(size*0.3, size*0.65, size*0.12, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Text
+  ctx.fillStyle = 'white';
+  ctx.font = `bold ${size*0.12}px 'Segoe UI', sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('IMB', size/2, size*0.88);
+  
+  const label = document.createElement('div');
+  label.style.color = 'white';
+  label.style.fontSize = '12px';
+  label.style.textAlign = 'center';
+  label.textContent = `icon-${size}.png (Right-click → Save)`;
+  
+  const wrapper = document.createElement('div');
+  wrapper.appendChild(canvas);
+  wrapper.appendChild(label);
+  document.body.appendChild(wrapper);
+});
+</script>
+</body>
+</html>
