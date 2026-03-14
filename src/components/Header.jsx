@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ lastUpdated, marketOpen, stockCount, hourlyDataAge }) => {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [isInstalled, setIsInstalled] = useState(false);
+  const location = useLocation();
 
   // Listen for the PWA install prompt
   useEffect(() => {
@@ -55,26 +57,60 @@ const Header = ({ lastUpdated, marketOpen, stockCount, hourlyDataAge }) => {
     });
   };
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div className="flex items-center justify-between px-4 py-2.5 bg-[#0a0a1a]/90 backdrop-blur-md border-b border-white/5 z-50">
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <span className="text-xl">🫧</span>
-        <h1 className="text-sm sm:text-base font-bold">
-          <span className="text-green-400">Indian</span>{" "}
-          <span className="text-white">Market Bubbles</span>
-        </h1>
+      {/* Logo + Nav Links */}
+      <div className="flex items-center gap-4">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <span className="text-xl">🫧</span>
+          <h1 className="text-sm sm:text-base font-bold">
+            <span className="text-green-400">Indian</span>{" "}
+            <span className="text-white">Market</span>
+          </h1>
+        </Link>
+
+        {/* Navigation Links */}
+        <div className="hidden sm:flex items-center gap-2 ml-6 border-l border-white/10 pl-6">
+          {/* Market Bubbles Link */}
+          <Link
+            to="/"
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              isActive("/")
+                ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+          >
+            📊 Bubbles
+          </Link>
+
+          {/* FII/DII Link */}
+          <Link
+            to="/fii-dii"
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              isActive("/fii-dii")
+                ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+          >
+            💱 FII/DII
+          </Link>
+        </div>
       </div>
 
       {/* Status + Install */}
       <div className="flex items-center gap-2 sm:gap-4">
-        {/* Stock Count */}
-        <span className="hidden sm:inline text-xs text-gray-400">
-          {stockCount} stocks
-        </span>
+        {/* Stock Count - Only show on bubble page */}
+        {isActive("/") && (
+          <span className="hidden sm:inline text-xs text-gray-400">
+            {stockCount} stocks
+          </span>
+        )}
 
-        {/* Hourly Data */}
-        {hourlyDataAge !== undefined && hourlyDataAge > 0 && (
+        {/* Hourly Data - Only show on bubble page */}
+        {isActive("/") && hourlyDataAge !== undefined && hourlyDataAge > 0 && (
           <span className="hidden lg:inline text-xs text-gray-500">
             ⏱️{" "}
             {hourlyDataAge >= 60
@@ -83,25 +119,29 @@ const Header = ({ lastUpdated, marketOpen, stockCount, hourlyDataAge }) => {
           </span>
         )}
 
-        {/* Market Status */}
-        <span className="text-xs">
-          {marketOpen ? (
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-green-500 rounded-full pulse-live"></span>
-              <span className="text-green-400 font-medium">Live</span>
-            </span>
-          ) : (
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-              <span className="text-red-400">Closed</span>
-            </span>
-          )}
-        </span>
+        {/* Market Status - Only show on bubble page */}
+        {isActive("/") && (
+          <span className="text-xs">
+            {marketOpen ? (
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span className="text-green-400 font-medium">Live</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                <span className="text-red-400">Closed</span>
+              </span>
+            )}
+          </span>
+        )}
 
-        {/* Last Updated */}
-        <span className="hidden sm:inline text-xs text-gray-500">
-          {formatTime(lastUpdated)}
-        </span>
+        {/* Last Updated - Only show on bubble page */}
+        {isActive("/") && (
+          <span className="hidden sm:inline text-xs text-gray-500">
+            {formatTime(lastUpdated)}
+          </span>
+        )}
 
         {/* ===== INSTALL APP BUTTON ===== */}
         {!isInstalled && installPrompt && (
@@ -150,6 +190,30 @@ const Header = ({ lastUpdated, marketOpen, stockCount, hourlyDataAge }) => {
             <span className="hidden sm:inline">Installed</span>
           </span>
         )}
+
+        {/* Mobile Nav Menu - Show on small screens */}
+        <div className="sm:hidden flex items-center gap-2 ml-2 pl-2 border-l border-white/10">
+          <Link
+            to="/"
+            className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-all ${
+              isActive("/")
+                ? "bg-blue-600/20 text-blue-400"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+          >
+            📊
+          </Link>
+          <Link
+            to="/fii-dii"
+            className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm transition-all ${
+              isActive("/fii-dii")
+                ? "bg-blue-600/20 text-blue-400"
+                : "text-gray-400 hover:text-gray-200"
+            }`}
+          >
+            💱
+          </Link>
+        </div>
       </div>
     </div>
   );

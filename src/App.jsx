@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useMarketData } from "./hooks/useMarketData";
 import Header from "./components/Header";
 import CategoryFilter from "./components/CategoryFilter";
@@ -8,8 +9,9 @@ import BubbleChart from "./components/BubbleChart";
 import StockInfoPanel from "./components/StockInfoPanel";
 import LoadingScreen from "./components/LoadingScreen";
 import Footer from "./components/Footer";
+import FiiDiiCashPage from "./components/FiiDiiCashPage";
 
-function App() {
+function BubbleChartPage() {
   const { stocks, loading, error, lastUpdated, marketOpen, hourlyDataAge } =
     useMarketData();
 
@@ -75,15 +77,7 @@ function App() {
       <LoadingScreen loading={loading} error={error} />
 
       {/* ===== STICKY TOP BAR (Header + Filters stay on top) ===== */}
-      <div className="sticky top-0 z-50 flex flex-col">
-        {/* Header with Install Button */}
-        <Header
-          lastUpdated={lastUpdated}
-          marketOpen={marketOpen}
-          stockCount={filteredStocks.length}
-          hourlyDataAge={hourlyDataAge}
-        />
-
+      <div className="sticky top-0 z-40 flex flex-col">
         {/* Category Filters */}
         <CategoryFilter
           activeFilter={activeFilter}
@@ -126,7 +120,7 @@ function App() {
         )}
       </div>
 
-      {/* ===== SCROLL INDICATOR (tells user they can scroll for more) ===== */}
+      {/* ===== SCROLL INDICATOR ===== */}
       <div className="w-full flex justify-center py-4 bg-gradient-to-b from-[#0a0a1a] to-[#080818]">
         <div className="flex flex-col items-center gap-1 text-gray-600 animate-bounce">
           <span className="text-xs">Scroll down for more info</span>
@@ -146,14 +140,14 @@ function App() {
         </div>
       </div>
 
-      {/* ===== FOOTER (appears after scrolling below bubbles) ===== */}
+      {/* ===== FOOTER ===== */}
       <Footer
         stockCount={filteredStocks.length}
         marketOpen={marketOpen}
         lastUpdated={lastUpdated}
       />
 
-      {/* Stock Info Panel (on click – modal overlay) */}
+      {/* Stock Info Panel */}
       {selectedStock && (
         <StockInfoPanel
           stock={selectedStock}
@@ -161,6 +155,31 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  const { stocks, loading, error, lastUpdated, marketOpen, hourlyDataAge } =
+    useMarketData();
+
+  return (
+    <Router>
+      <div className="bg-[#0a0a1a]">
+        {/* ===== HEADER - Renders on ALL pages ===== */}
+        <Header
+          lastUpdated={lastUpdated}
+          marketOpen={marketOpen}
+          stockCount={stocks?.length || 0}
+          hourlyDataAge={hourlyDataAge}
+        />
+
+        {/* ===== PAGE ROUTES ===== */}
+        <Routes>
+          <Route path="/" element={<BubbleChartPage />} />
+          <Route path="/fii-dii" element={<FiiDiiCashPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
