@@ -10,6 +10,7 @@ import StockInfoPanel from "./components/StockInfoPanel";
 import LoadingScreen from "./components/LoadingScreen";
 import Footer from "./components/Footer";
 import FiiDiiCashPage from "./components/FiiDiiCashPage";
+import FiiDiiManualEntry from "./components/FiiDiiManualEntry";
 
 function BubbleChartPage() {
   const { stocks, loading, error, lastUpdated, marketOpen, hourlyDataAge } =
@@ -177,6 +178,7 @@ function App() {
         <Routes>
           <Route path="/" element={<BubbleChartPage />} />
           <Route path="/fii-dii" element={<FiiDiiCashPage />} />
+          <Route path="/fii-dii/add" element={<FiiDiiManualEntry />} />
         </Routes>
       </div>
     </Router>
